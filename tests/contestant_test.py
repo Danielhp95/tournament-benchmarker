@@ -27,9 +27,17 @@ class ContestantTest(TestCase):
         valid_ai_name = 'Machete'
         ct = Contestant(ai_name=valid_ai_name)
 
-        ct.instantiate_ai(gateway=None)
-        assert ct.ai.__class__.__name__ == valid_ai_name
-        assert ct.ai.__class__.__name__ == ct.ai_name
+        ai = ct.instantiate_ai(gateway=None)
+        assert ai.__class__.__name__ == valid_ai_name
+        assert ai.__class__.__name__ == ct.ai_name
+
+    def test_character_valid(self):
+        Contestant(ai_name='Machete', character='ZEN')
+        Contestant(ai_name='Machete', character='GARNET')
+
+    @pytest.mark.xfail(raises=ValueError)
+    def test_character_invalid(self):
+        Contestant(ai_name='Machete', character='CARLOS')
 
     @pytest.mark.xfail(raises=ValueError)
     def test_finds_all_available_contestant_module_names_non_list_input(self):

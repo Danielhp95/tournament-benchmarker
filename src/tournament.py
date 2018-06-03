@@ -2,7 +2,9 @@ from enum import Enum
 from tqdm import tqdm
 from recordclass import recordclass
 from collections import namedtuple
+import time
 import random
+from beautifultable import BeautifulTable
 
 import game_starter
 from contestant import Contestant
@@ -15,7 +17,7 @@ class TournamentType(Enum):
 
 
 Match = recordclass('Match', 'contestant_1 contestant_2 winner duration')
-ContestantStatistics = namedtuple('ContestantStatistics', 'wins played_matches')
+ContestantStatistics = recordclass('ContestantStatistics', 'wins played_matches, played_time')
 
 
 # TODO refactor this class into three different classes
@@ -50,13 +52,14 @@ class Tournament(object):
             self.round_robin_rounds = round_robin_rounds
 
     def begin_tournament(self):
-        self.contestant_statistics = {contestant: ContestantStatistics(0, 0) for contestant in self.contestants}
+        self.contestant_statistics = {contestant: ContestantStatistics(0, 0, 0) for contestant in self.contestants}
         if self.tournament_type == TournamentType.FLAT_KNOCKOUT:
             pass
         if self.tournament_type == TournamentType.ROUND_KNOCKOUT:
-            pass
+            self.play_round_knockout_tournament()
         if self.tournament_type == TournamentType.ROUND_ROBIN:
             self.play_round_robin_tournament()
+        print(self)
 
     def calculate_round_matches(self, round_contestants):
         # maybe find other place to put definition of Match?
@@ -83,15 +86,35 @@ class Tournament(object):
         for match in tqdm(matches):
             self.play_match(match)
             self.update_statistics_after_match(self.contestant_statistics, match)
+            time.sleep(10)
         self.average_duration = (self.total_duration) / len(matches)
         assert self.matches == len(matches)
-        assert self.total_duration == sum(map(lambda match: match.duration, matches))
+        print('Recorded duration: {}'.format(self.total_duration))
+        print('Summed up duration: {}'.format(sum(map(lambda match: match.duration, matches))))
         self.is_tournament_over = True
 
-    def play_round_knockout_tournament(self):
-        pass
+        print('Total duration: {}'.format(self.total_duration))
+        print('average_duration: {}'.format(self.average_duration))
+        print(self.contestant_statistics)
 
-    def play_match(match):
+    def play_round_knockout_tournament(self):
+        self.has_tournament_started = True
+        self.play_single_round_knockout_tournament(self.contestants, current_round=1)
+        self.is_tournament_over = True
+
+    def play_single_round_knockout_tournament(self, round_contestants, current_round=1):
+        if len(round_contestants) <= 1:
+            return
+
+        matches, selected_round_winners = self.calculate_round_matches(round_contestants)
+        for match in tqdm(matches):
+            self.play_match(match)
+            self.update_statistics_after_match(self.contestant_statistics, match)
+            time.sleep(10)
+        round_winners = list(map(lambda m: m.winner, matches)) + selected_round_winners
+        self.play_single_round_knockout_tournament(round_winners, current_round + 1)
+
+    def play_match(self, match):
         '''
             Delegates the "playing" of the match to a relevant game_starter.
             Match information is updated from the results of the match
@@ -123,3 +146,22 @@ class Tournament(object):
         if tournament_type == TournamentType.ROUND_ROBIN:
             if not isinstance(round_robin_rounds, (int,)) or round_robin_rounds <= 0:
                 raise ValueError('Round robin rounds must be a positive number')
+
+    def __repr__(self):
+        if not self.has_tournament_started:
+            raise Warning('Trying to print tournament results while tournament has not even started')
+        if not self.is_tournament_over:
+            raise Warning('Trying to print tournament results while tournament is not over')
+        table = BeautifulTable()
+        table.column_headers = ['Contestant name', 'Matches won', 'Matches played', 'Time played']
+
+        sort_by_wins = lambda x: x[1].wins
+        sorted_contestants = sorted(list(self.contestant_statistics.items()), key=sort_by_wins, reverse=True)
+        for contestant, statistics in sorted_contestants:
+            table.append_row([contestant.ai_name, statistics.wins, statistics.played_matches, statistics.played_time])
+        return table.__str__()
+
+
+# t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, round_robin_rounds=2, contestant_names=['Machete', 'RandomAI'])
+t = Tournament(tournament_type=TournamentType.ROUND_ROBIN, round_robin_rounds=3, contestant_names=['Machete', 'RandomAI', 'KickAI'])
+t.begin_tournament()

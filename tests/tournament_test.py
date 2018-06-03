@@ -63,7 +63,7 @@ class TournamentTest(TestCase):
         assert all([actual_matches[i].contestant_2 == expected_matches[i].contestant_2 for i in range(len(actual_matches))])
 
     def test_create_matches_round_knockout(self):
-        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, round_robin_rounds=2, contestant_names=['Machete', 'RandomAI'])
+        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, contestant_names=['Machete', 'RandomAI'])
         actual_matches, selected_round_winners = t.calculate_round_matches(t.contestants)
         expected_matches_1 = [Match(Contestant('Machete'), Contestant('RandomAI'), winner=None, duration=-1)]
         expected_matches_2 = [Match(Contestant('RandomAI'), Contestant('Machete'), winner=None, duration=-1)]
@@ -77,8 +77,18 @@ class TournamentTest(TestCase):
                     all([permutation_2_comparison_1, permutation_2_comparison_2])])
 
     def test_create_matches_round_knockout_odd_contestants(self):
-        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, round_robin_rounds=2, contestant_names=['Machete', 'RandomAI', 'KickAI'])
+        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, contestant_names=['Machete', 'RandomAI', 'KickAI'])
         actual_matches, selected_round_winners = t.calculate_round_matches(t.contestants)
         assert len(actual_matches) == 1
         assert len(selected_round_winners) == 1
 
+    @pytest.mark.xfail(raises=Warning)
+    def test_print_tournnament_when_it_has_not_began(self):
+        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, contestant_names=['Machete', 'RandomAI', 'KickAI'])
+        print(t)
+
+    @pytest.mark.xfail(raises=Warning)
+    def test_print_tournnament_while_still_ongoing(self):
+        t = Tournament(tournament_type=TournamentType.ROUND_KNOCKOUT, contestant_names=['Machete', 'RandomAI', 'KickAI'])
+        t.has_tournament_started = True
+        print(t)
