@@ -32,6 +32,9 @@ from tournament import TournamentType
 > t = Tournament(tournament_type=TournamentType.ROUND_ROBIN, round_robin_rounds=3, contestant_names=['AI_1', 'AI_2', 'AI_3'])
 > t.begin_tournament()
 > print(t)
+```
+Running the code above will print to the terminal:
+```
 +-----------------+-------------+----------------+-------------+
 | Contestant name | Matches won | Matches played | Time played |
 +-----------------+-------------+----------------+-------------+
