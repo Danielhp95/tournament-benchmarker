@@ -3,7 +3,7 @@
 
 Benchmarking reinforcement learning AIs is a difficult problem (this is not limited to RL). This is doubly true in tasks where there isn't a clear optimal policy. This is tripley true in tasks involving multiple competitive agents, where the optimal policy for each episode depends on which oppoent the AI is facing on that episode. Traditional abstract statistics used to study the quality of RL AIs, such as average reward per episode or episode length, may not be too illustrative. This is because they might not directly reflect how "good" an AI is in comparison with other available AIs. Tournament benchmarker aims at solving this issue for 1v1 fighting games.
 
-*Disclaimer*: Currently tournament-benchmarker is tied to the game FightingICE. FightingICE is a game maintained by [Ritsumeikan](http://en.ritsumei.ac.jp/) University as part of the [CIG Fighting game AI competition](http://www.ice.ci.ritsumei.ac.jp/~ftgaic/). This means that tournament-benchmarker only works in conjunction with this game. In the future I will decouple the game from the tool to make the module game agnostic.
+*Disclaimer*: Currently tournament-benchmarker is tied to the game FightingICE. FightingICE is a game maintained by [Ritsumeikan University](http://en.ritsumei.ac.jp/) as part of the [CIG Fighting game AI competition](http://www.ice.ci.ritsumei.ac.jp/~ftgaic/). This means that tournament-benchmarker only works in conjunction with this game. In the future I will decouple the game from the tool to make the module game agnostic.
 
 ## Instalation
     
