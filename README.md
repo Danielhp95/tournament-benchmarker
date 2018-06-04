@@ -1,7 +1,9 @@
 # Tournament benchmarker
 **Tournament-benchmarker** is a python command line tool to benchmark the performance of fighting game AIs in a tournament like fashion. This tool is written in Python 3.5.
 
-Benchmarking reinforcement learning AIs is a difficult problem (this is not limited to RL). This is doubly true in tasks where there isn't a clear optimal policy. This is tripley true in tasks involving multiple competitive agents, where the optimal policy for each episode depends on which oppoent the AI is facing on that episode. Traditional abstract statistics used to study the quality of RL AIs, such as average reward per episode or episode length, may not be too illustrative. This is because they might not directly reflect how "good" an AI is in comparison with other available AIs. Tournament benchmarker aims at solving this issue for 1v1 fighting games.
+Benchmarking reinforcement learning AIs is a difficult problem (this is not limited to RL). This is doubly true in tasks where there isn't a clear optimal policy. This is tripley true in tasks involving multiple competitive agents, where the optimal policy for each episode depends on which oppoent the AI is facing on that episode. Traditional abstract statistics used to study the quality of RL AIs, such as average reward per episode or episode length, may not be too illustrative. This is because they might not directly reflect how "good" an AI is in comparison with other available AIs. 
+
+Tournament benchmarker aims at solving this issue for 1v1 fighting games.
 
 *Disclaimer*: Currently tournament-benchmarker is tied to the game FightingICE. FightingICE is a game maintained by [Ritsumeikan University](http://en.ritsumei.ac.jp/) as part of the [CIG Fighting game AI competition](http://www.ice.ci.ritsumei.ac.jp/~ftgaic/). This means that tournament-benchmarker only works in conjunction with this game. In the future I will decouple the game from the tool to make the module game agnostic.
 
@@ -16,7 +18,10 @@ Tournament-benchmarker uses Python 3.5 alongside the following python packages:
 + [recordclass](https://pypi.org/project/recordclass/). A mutable version of namedtuple (link).
 + [tqdm](https://github.com/tqdm/tqdm). A progress bar for python CLIs, used to estimate tournament length, as it cannot be known in advance how long matches will take.
 + [beautifultable](https://github.com/pri22296/beautifultable). To print tournament results in a good looking fashion in the terminal.
+
+### FightingICE specifics
  
+Currently, for both the `game_starter` module and some tests in the `tests/` directory rely on the existence of a directory in the parent directory of tournament-benchmarker. This means that it is not possible to use this python module  for other games (yet).
 
 ## Supported tournament types.
 There are 2 tournament types which are currently supported
