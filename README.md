@@ -14,7 +14,7 @@ Tournament-benchmarker uses Python 3.5 alongside the following python packages:
 + [py4j](https://www.py4j.org/). To communicate python with the Java Virtual Machine (JVM)
 + [numpy](http://www.numpy.org/). Python's crown jewel
 + [recordclass](https://pypi.org/project/recordclass/). A mutable version of namedtuple (link).
-+ [tqdm](https://github.com/tqdm/tqdm). An... Used to estimate 
++ [tqdm](https://github.com/tqdm/tqdm). A progress bar for python CLIs, used to estimate tournament length, as it cannot be known in advance how long matches will take.
 + [beautifultable](https://github.com/pri22296/beautifultable). To print tournament results in a good looking fashion in the terminal.
  
 
@@ -29,10 +29,19 @@ There are 2 tournament types which are currently supported
 from tournament import Tournament
 from tournament import TournamentType
 
-> t = Tournament(tournament_type=TournamentType.ROUND_ROBIN, round_robin_rounds=3, contestant_names=['Machete', 'RandomAI'])
+> t = Tournament(tournament_type=TournamentType.ROUND_ROBIN, round_robin_rounds=3, contestant_names=['AI_1', 'AI_2', 'AI_3'])
 > t.begin_tournament()
 > print(t)
-ADD PRINTED TOURNAMENT
++-----------------+-------------+----------------+-------------+
+| Contestant name | Matches won | Matches played | Time played |
++-----------------+-------------+----------------+-------------+
+|      AI_1       |      6      |       6        |      6      |
++-----------------+-------------+----------------+-------------+
+|      AI_2       |      3      |       6        |    23805    |
++-----------------+-------------+----------------+-------------+
+|      AI_3       |      0      |       6        |   39940.5   |
++-----------------+-------------+----------------+-------------+
+
 ```
 
 ## Available statistics
