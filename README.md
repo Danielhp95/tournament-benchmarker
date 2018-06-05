@@ -7,7 +7,15 @@ Tournament benchmarker aims at solving this issue for 1v1 fighting games.
 
 *Disclaimer*: Currently tournament-benchmarker is tied to the game FightingICE. FightingICE is a game maintained by [Ritsumeikan University](http://en.ritsumei.ac.jp/) as part of the [CIG Fighting game AI competition](http://www.ice.ci.ritsumei.ac.jp/~ftgaic/). This means that tournament-benchmarker only works in conjunction with this game. In the future I will decouple the game from the tool to make the module game agnostic.
 
-## Instalation
+## Installation
+
+The easiest way to install this package is by running
+
+    pip install -r https://github.com/Danielhp95/tournament-benchmarker/requirements.txt
+    pip install git+https://github.com/Danielhp95/tournament-benchmarker.git
+   
+which will install the package and any of its dependencies.
+
     
 ## Requirements
 
